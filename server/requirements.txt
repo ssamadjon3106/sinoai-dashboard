@@ -1,0 +1,20 @@
+fastapi
+uvicorn[standard]
+
+# ORM + migrations — same approach as sinoai-chatbot (Tortoise models,
+# Aerich-generated versioned migration files under migrations/models/).
+tortoise-orm
+aerich
+asyncpg
+
+pydantic
+pydantic-settings
+python-dotenv
+
+# Auth
+pyjwt
+bcrypt
+
+# Outbound calls to OpenAI + chatapi.sinoai.io (no SDKs, plain HTTP —
+# mirrors the fetch-based style the Node backend used).
+httpx
