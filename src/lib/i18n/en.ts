@@ -69,6 +69,9 @@ export const en: UiStrings = {
     needsAttention: 'Needs attention',
     needsAttentionHint: 'Has at least one high-risk result',
     perDomainBreakdown: 'Breakdown by domain',
+    atRisk: 'at risk',
+    heroGreeting: 'Welcome back,',
+    heroTagline: "Your team's health, at a glance",
   },
   worker: {
     addAction: 'Add worker',

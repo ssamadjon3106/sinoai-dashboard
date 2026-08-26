@@ -832,6 +832,7 @@ export const demoWorkers: Patient[] = [
     "job": "Not specified",
     "description": "Not specified",
     "insuranceNumber": null,
+    "sinoaiUserId": "sinoai-19f7c2b4",
     "assessed": true,
     "measurements": {
       "bmi": 19.2
@@ -1032,6 +1033,7 @@ export const demoWorkers: Patient[] = [
     "job": "Not specified",
     "description": "Not specified",
     "insuranceNumber": null,
+    "sinoaiUserId": "sinoai-4d82e1a0",
     "assessed": true,
     "measurements": {
       "bmi": 26.1

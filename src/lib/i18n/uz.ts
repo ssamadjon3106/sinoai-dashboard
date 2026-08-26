@@ -69,6 +69,9 @@ export const uz: UiStrings = {
     needsAttention: 'Diqqat talab qiladi',
     needsAttentionHint: 'Kamida bitta yuqori xavf ko‘rsatkichi bor',
     perDomainBreakdown: 'Yo‘nalishlar bo‘yicha taqsimot',
+    atRisk: 'xavf ostida',
+    heroGreeting: 'Xush kelibsiz,',
+    heroTagline: 'Jamoa salomatligi nazorat ostida',
   },
   worker: {
     addAction: 'Xodim qo‘shish',

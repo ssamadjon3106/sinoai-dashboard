@@ -75,6 +75,9 @@ export interface UiStrings {
     needsAttention: string
     needsAttentionHint: string
     perDomainBreakdown: string
+    atRisk: string
+    heroGreeting: string
+    heroTagline: string
   }
   worker: {
     addAction: string

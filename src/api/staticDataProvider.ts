@@ -193,16 +193,20 @@ export class StaticDataProvider implements DataProvider {
     if (!worker) throw new Error('Not found')
     if (!worker.sinoaiUserId) return { notLinked: true }
 
-    // Reachable only if a demo-added/edited worker is given a sinoaiUserId
-    // during the session — no live SinoAI/OpenAI calls happen here, same
-    // static fallback copy the real server shows while those aren't wired up.
+    // Two of the demo workers (Samadjon Sayfullayev, Alisher Akmaljonov) are
+    // pre-seeded with a sinoaiUserId and get copy tailored to their own real
+    // domain data (see CUSTOM_WEEKLY below) instead of the generic fallback —
+    // everyone else who picks up a sinoaiUserId via the demo's add/edit form
+    // during the session gets the same generic WEEKLY_FALLBACK copy the real
+    // server shows while live SinoAI/OpenAI calls aren't wired up.
     const now = new Date()
-    const fallback = WEEKLY_FALLBACK[asLang(lang)]
+    const custom = CUSTOM_WEEKLY[worker.id]
+    const source = custom ? custom[asLang(lang)] : WEEKLY_FALLBACK[asLang(lang)]
     return {
       isoYear: getISOWeekYear(now),
       isoWeek: getISOWeek(now),
-      summary: fallback.summary,
-      tasks: fallback.tasks.map((text, i) => ({ id: `static-${i}`, text })),
+      summary: source.summary,
+      tasks: source.tasks.map((text, i) => ({ id: `${custom ? 'custom' : 'static'}-${i}`, text })),
       generatedAt: now.toISOString(),
     }
   }
@@ -301,6 +305,81 @@ const INSIGHTS_SUGGESTION_FALLBACK: LocalizedText = {
   uz: "Xodim bilan yaqin orada suhbat o'tkazing va zarur bo'lsa mutaxassisga yo'naltiring. Kuzatuvni davom ettiring va natijalar o'zgarsa qayta baholang.",
   ru: 'Проведите беседу с сотрудником в ближайшее время и при необходимости направьте к специалисту. Продолжайте наблюдение и переоцените ситуацию при изменении показателей.',
   en: 'Check in with the worker soon and refer them to a specialist if needed. Keep monitoring and re-evaluate if the results change.',
+}
+
+// Per-worker weekly-recommendation copy for the two demo workers given a
+// fake sinoaiUserId (see demoWorkers.ts) — written from each worker's own
+// real domains.* data so the linked-account state reads as tailored rather
+// than generic: Samadjon (diabetes 37% high, on metformin; cvd 22%
+// moderate/hypertension) and Alisher (diabetes 40% high; cvd 24% moderate;
+// ongoing lower back pain/muscle spasms; overdue hormone panel).
+const CUSTOM_WEEKLY: Record<string, Record<keyof LocalizedText, { summary: string; tasks: string[] }>> = {
+  // Samadjon Sayfullayev
+  'daedfe05-f9d7-4ab6-8d92-c4b9d3b85539': {
+    uz: {
+      summary:
+        "Bu hafta ham qandli diabet va qon bosimi ko'rsatkichlaringiz asosiy e'tibor markazida bo'lib qolmoqda. Metformin qabulini uzmang va shakar darajangizni muntazam kuzatib boring.",
+      tasks: [
+        'Metforminni shifokor belgilagan dozada, har kuni bir xil vaqtda iching',
+        "Qon shakarini har kuni ertalab, ovqatlanishdan oldin o'lchang",
+        'Tuz iste’molini kamaytiring va qon bosimingizni haftada kamida 3 marta tekshiring',
+        'Endokrinologga navbatdagi tashrifni belgilang',
+      ],
+    },
+    ru: {
+      summary:
+        'На этой неделе показатели сахара в крови и артериального давления по-прежнему требуют внимания. Продолжайте приём метформина и регулярно контролируйте уровень глюкозы.',
+      tasks: [
+        'Принимайте метформин строго по назначенной дозировке в одно и то же время',
+        'Измеряйте уровень сахара в крови каждое утро натощак',
+        'Ограничьте потребление соли и проверяйте давление минимум 3 раза в неделю',
+        'Запишитесь на приём к эндокринологу для контроля лечения',
+      ],
+    },
+    en: {
+      summary:
+        'Your blood sugar and blood pressure remain this week\'s focus. Keep taking metformin as prescribed and continue monitoring your glucose levels.',
+      tasks: [
+        'Take metformin exactly as prescribed, at the same time each day',
+        'Check your fasting blood glucose every morning',
+        'Reduce salt intake and check your blood pressure at least 3 times this week',
+        'Schedule a follow-up visit with your endocrinologist',
+      ],
+    },
+  },
+  // Alisher Akmaljonov
+  '3d51baf3-f109-4359-aa85-0e44295554bd': {
+    uz: {
+      summary:
+        "Bu hafta bel og'rig'ingiz va qandli diabet ko'rsatkichlaringiz asosiy e'tibor markazida. Mushaklarni bo'shashtiruvchi mashqlarni davom ettiring va kechiktirilgan gormonlar tahlilini unutmang.",
+      tasks: [
+        "Har kuni yengil cho'zilish (stretching) mashqlarini bajaring",
+        'Uzoq vaqt bir xil holatda o‘tirishdan saqlaning — har soatda tanaffus qiling',
+        'Kechiktirilgan gormonlar tahlilini topshiring',
+        'Qon shakaringizni haftada kamida 3 marta o‘lchab boring',
+      ],
+    },
+    ru: {
+      summary:
+        'На этой неделе в фокусе — боль в пояснице и показатели сахара в крови. Продолжайте упражнения на расслабление мышц и не забудьте про отложенный анализ на гормоны.',
+      tasks: [
+        'Выполняйте лёгкую растяжку каждый день',
+        'Избегайте долгого сидения в одной позе — делайте перерыв каждый час',
+        'Сдайте отложенный анализ на гормоны',
+        'Измеряйте уровень сахара в крови минимум 3 раза в неделю',
+      ],
+    },
+    en: {
+      summary:
+        "Your lower back pain and blood sugar levels are this week's focus. Keep up the gentle stretching and don't forget the overdue hormone panel.",
+      tasks: [
+        'Do gentle stretching exercises every day',
+        'Avoid sitting in one position too long — take a break every hour',
+        'Complete the overdue hormone blood test',
+        'Check your blood glucose at least 3 times this week',
+      ],
+    },
+  },
 }
 
 // Identical copy to server/app/api/weekly.py's `_STATIC_FALLBACK` — shown for

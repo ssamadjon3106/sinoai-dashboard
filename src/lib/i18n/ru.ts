@@ -69,6 +69,9 @@ export const ru: UiStrings = {
     needsAttention: 'Требуют внимания',
     needsAttentionHint: 'Есть хотя бы один показатель высокого риска',
     perDomainBreakdown: 'Распределение по направлениям',
+    atRisk: 'в группе риска',
+    heroGreeting: 'С возвращением,',
+    heroTagline: 'Здоровье вашей команды под контролем',
   },
   worker: {
     addAction: 'Добавить сотрудника',
