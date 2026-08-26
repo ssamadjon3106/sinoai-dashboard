@@ -129,7 +129,7 @@ export const uz: UiStrings = {
   },
   insurance: {
     title: 'Sug‘urta',
-    notAvailable: 'Sug‘urta mavjud emas.',
+    notAvailable: 'Sug‘urta polisi mavjud emas.',
   },
   common: {
     loading: 'Yuklanmoqda…',
