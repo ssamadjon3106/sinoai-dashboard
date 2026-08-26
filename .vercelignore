@@ -2,5 +2,8 @@
 # Vercel auto-detects any api/*.py file as a serverless Function regardless
 # of vercel.json's rewrites, so excluding these directories entirely is the
 # only reliable way to guarantee no backend ships with this deploy.
-api/
-server/
+# Leading slash anchors these to the repo root — without it, "api/" would
+# also match src/api/ (the frontend's own API-provider code) and break the
+# build (this bit us once already: "Cannot find module '@/api'").
+/api/
+/server/
