@@ -124,6 +124,10 @@ export const ru: UiStrings = {
     subtitle: 'Настройки аккаунта и панели управления',
     placeholder: 'Настройки появятся в следующей версии.',
   },
+  insurance: {
+    title: 'Страхование',
+    notAvailable: 'Страхование недоступно.',
+  },
   common: {
     loading: 'Загрузка…',
     error: 'Не удалось загрузить данные',

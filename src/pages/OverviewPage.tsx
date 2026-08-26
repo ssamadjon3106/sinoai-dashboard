@@ -7,7 +7,7 @@ import { PageHeader } from '@/components/PageHeader'
 import { StatTile } from '@/components/ui/StatTile'
 import { Card } from '@/components/ui/Card'
 import { Skeleton } from '@/components/ui/Skeleton'
-import { DomainBandBar } from '@/components/dashboard/DomainBandBar'
+import { DomainDonut } from '@/components/dashboard/DomainDonut'
 import { RiskChip } from '@/components/RiskChip'
 import { DOMAIN_KEYS } from '@/types'
 import { formatInitials } from '@/lib/format'
@@ -51,14 +51,14 @@ export function OverviewPage() {
             <h3 className="mb-4 text-sm font-bold text-ink-900">{t.overview.perDomainBreakdown}</h3>
             {loading || !stats ? (
               <div className="space-y-5">
-                <Skeleton className="h-10" />
-                <Skeleton className="h-10" />
-                <Skeleton className="h-10" />
+                <Skeleton className="h-[132px]" />
+                <Skeleton className="h-[132px]" />
+                <Skeleton className="h-[132px]" />
               </div>
             ) : (
               <div className="space-y-5">
                 {DOMAIN_KEYS.map((domain) => (
-                  <DomainBandBar key={domain} domain={domain} counts={stats.perDomain[domain]} />
+                  <DomainDonut key={domain} domain={domain} counts={stats.perDomain[domain]} />
                 ))}
               </div>
             )}

@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { ChevronDown, MapPin, Sparkles, X } from 'lucide-react'
+import { MapPin, X } from 'lucide-react'
 import type { DomainKey, Patient } from '@/types'
 import { DOMAIN_KEYS } from '@/types'
 import { useI18n } from '@/hooks/useI18n'
@@ -8,17 +8,14 @@ import { pickLocalized } from '@/lib/i18n'
 import { formatInitials } from '@/lib/format'
 import { RiskGauge } from '@/components/RiskGauge'
 import { DomainCard } from '@/components/DomainCard'
-import { AnalysisPanel } from '@/components/AnalysisPanel'
 import { ReferenceRangeBar } from '@/components/ReferenceRangeBar'
 
 export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClose?: () => void }) {
   const { t, language } = useI18n()
   const [activeDomain, setActiveDomain] = useState<DomainKey>('diabetes')
-  const [expanded, setExpanded] = useState(false)
 
   useEffect(() => {
     setActiveDomain('diabetes')
-    setExpanded(false)
   }, [patient.id])
 
   const activeResult = patient.domains[activeDomain]
@@ -27,7 +24,6 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
   function selectDomain(domain: DomainKey) {
     if (domain !== activeDomain) {
       setActiveDomain(domain)
-      setExpanded(false)
     }
   }
 
@@ -99,31 +95,12 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
           ))}
         </div>
 
-        {/* Reference ranges — only measurements the real API can supply (BMI always; vitamin D3 only when a lab document states it) */}
-        <div className="mt-5 grid grid-cols-2 gap-3">
-          {patient.measurements.vitaminD3 !== undefined && (
+        {/* Reference ranges — only measurements the real API can supply, and
+            only when there's a value to show (vitamin D3 requires a lab
+            document; BMI is no longer surfaced in this panel). */}
+        {patient.measurements.vitaminD3 !== undefined && (
+          <div className="mt-5">
             <ReferenceRangeBar label="Vitamin D3" unit="ng/mL" value={patient.measurements.vitaminD3} min={ranges.vitaminD3[0]} max={ranges.vitaminD3[1]} />
-          )}
-          <ReferenceRangeBar label="BMI" unit="kg/m²" value={patient.measurements.bmi} min={ranges.bmi[0]} max={ranges.bmi[1]} />
-        </div>
-
-        {/* Analysis toggle (explicit, keyboard/touch-friendly path) */}
-        <button
-          type="button"
-          onClick={() => setExpanded((v) => !v)}
-          aria-expanded={expanded}
-          className="mt-5 flex w-full items-center justify-between rounded-control border border-border bg-surface px-4 py-2.5 text-sm font-semibold text-ink-700 transition-colors hover:bg-surface-sunken"
-        >
-          <span className="inline-flex items-center gap-2">
-            <Sparkles className="h-4 w-4 text-brand-600" />
-            {t.detail.analysisTitle}
-          </span>
-          <ChevronDown className={`h-4 w-4 text-ink-400 transition-transform ${expanded ? 'rotate-180' : ''}`} />
-        </button>
-
-        {expanded && (
-          <div className="mt-3">
-            <AnalysisPanel result={activeResult} />
           </div>
         )}
       </div>

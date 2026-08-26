@@ -124,6 +124,10 @@ export const uz: UiStrings = {
     subtitle: 'Hisob va boshqaruv paneli sozlamalari',
     placeholder: 'Sozlamalar keyingi versiyada qo‘shiladi.',
   },
+  insurance: {
+    title: 'Sug‘urta',
+    notAvailable: 'Sug‘urta mavjud emas.',
+  },
   common: {
     loading: 'Yuklanmoqda…',
     error: 'Ma’lumotni yuklab bo‘lmadi',

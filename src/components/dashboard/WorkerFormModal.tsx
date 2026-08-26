@@ -22,7 +22,6 @@ export function WorkerFormModal({ patient, onClose, onSubmit }: WorkerFormModalP
   const [job, setJob] = useState(patient?.job ?? '')
   const [description, setDescription] = useState(patient?.description ?? '')
   const [insuranceNumber, setInsuranceNumber] = useState(patient?.insuranceNumber ?? '')
-  const [sinoaiUserId, setSinoaiUserId] = useState(patient?.sinoaiUserId ?? '')
   const [submitting, setSubmitting] = useState(false)
   const [error, setError] = useState<string | undefined>(undefined)
 
@@ -37,7 +36,9 @@ export function WorkerFormModal({ patient, onClose, onSubmit }: WorkerFormModalP
         job,
         description,
         insuranceNumber: insuranceNumber || undefined,
-        sinoaiUserId: sinoaiUserId || undefined,
+        // No SinoAI user ID field in this form anymore — an existing
+        // worker's link (if any) is left untouched since it's simply not
+        // included in the submitted payload.
       })
       onClose()
     } catch {
@@ -94,10 +95,6 @@ export function WorkerFormModal({ patient, onClose, onSubmit }: WorkerFormModalP
 
         <Field label={`${t.worker.insuranceNumberLabel} ${t.worker.insuranceNumberOptional}`}>
           <input value={insuranceNumber ?? ''} onChange={(e) => setInsuranceNumber(e.target.value)} className={inputClass} />
-        </Field>
-
-        <Field label={`${t.worker.sinoaiUserIdLabel} ${t.worker.insuranceNumberOptional}`} hint={t.worker.sinoaiUserIdHint}>
-          <input value={sinoaiUserId ?? ''} onChange={(e) => setSinoaiUserId(e.target.value)} className={inputClass} />
         </Field>
 
         {error && <p className="text-sm font-medium text-risk-high">{error}</p>}

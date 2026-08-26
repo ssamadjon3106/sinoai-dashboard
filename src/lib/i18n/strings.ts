@@ -130,6 +130,10 @@ export interface UiStrings {
     subtitle: string
     placeholder: string
   }
+  insurance: {
+    title: string
+    notAvailable: string
+  }
   common: {
     loading: string
     error: string

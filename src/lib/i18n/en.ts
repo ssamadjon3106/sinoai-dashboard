@@ -124,6 +124,10 @@ export const en: UiStrings = {
     subtitle: 'Account and dashboard preferences',
     placeholder: 'Settings are coming in a future release.',
   },
+  insurance: {
+    title: 'Insurance',
+    notAvailable: 'Insurance is not available.',
+  },
   common: {
     loading: 'Loading…',
     error: 'Could not load data',

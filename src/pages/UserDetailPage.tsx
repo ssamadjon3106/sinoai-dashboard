@@ -5,14 +5,16 @@ import { useUser } from '@/hooks/useUser'
 import { UserDetailPanel } from '@/components/dashboard/UserDetailPanel'
 import { WeeklyRecommendationCard } from '@/components/dashboard/WeeklyRecommendationCard'
 import { RiskInsightsCard } from '@/components/dashboard/RiskInsightsCard'
+import { InsuranceCard } from '@/components/dashboard/InsuranceCard'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { Skeleton } from '@/components/ui/Skeleton'
 
 /**
  * Reached from Overview -> Needs attention -> a worker. Three panes: the
  * existing worker-detail info on the left (unchanged), and on the right a
- * weekly recommendation on top and the LLM risk overview + suggestion below
- * it — see WeeklyRecommendationCard / RiskInsightsCard.
+ * weekly recommendation on top, the LLM risk overview + suggestion below it,
+ * and an insurance-status placeholder at the bottom — see
+ * WeeklyRecommendationCard / RiskInsightsCard / InsuranceCard.
  */
 export function UserDetailPage() {
   const { id } = useParams<{ id: string }>()
@@ -42,6 +44,7 @@ export function UserDetailPage() {
           <div className="min-h-0 flex-1 space-y-4 overflow-y-auto p-6">
             <WeeklyRecommendationCard patientId={patient.id} />
             <RiskInsightsCard patientId={patient.id} />
+            <InsuranceCard />
           </div>
         </div>
       ) : (
