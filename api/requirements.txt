@@ -1,14 +1,10 @@
-# Runtime dependencies for the deployed Vercel function only — mirrors
-# server/requirements.txt minus dev-only tooling that has no business in the
-# deployed bundle:
-#   - uvicorn: Vercel's Python runtime invokes the ASGI app directly; there's
-#     no process to bind a port on.
-#   - aerich: a migration CLI, run locally/CI against the production DB, not
-#     from the request-serving function itself.
-# Keeping this list current with server/requirements.txt is a manual step —
-# see server/requirements.txt for the source of truth on versions/comments.
+# Runtime dependencies for the deployed Vercel function only.
+# aerich is required even though its CLI is never invoked here: app/db.py's
+# TORTOISE_ORM config imports aerich.models for schema tracking, so the
+# package must be installed or the function crashes at startup.
 fastapi
 tortoise-orm
+aerich
 asyncpg
 pydantic
 pydantic-settings
