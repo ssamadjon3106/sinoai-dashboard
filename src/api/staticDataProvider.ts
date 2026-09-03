@@ -39,17 +39,33 @@ export class StaticDataProvider implements DataProvider {
   async getUsers(filters: UserListFilters = {}): Promise<Patient[]> {
     const search = filters.search?.trim().toLowerCase()
     const isUuidSearch = search ? UUID_RE.test(search) : false
+    // Multi-word keyword search: every space-separated word in the query
+    // must appear somewhere in the worker's searchable text, but each word
+    // can match a different field — e.g. "Chilonzor operator" finds a
+    // worker in Chilonzor whose job is "ombor operatori", even though that
+    // exact phrase never appears in any single field.
+    const keywords = search ? search.split(/\s+/).filter(Boolean) : []
 
     let result = this.workers.filter((w) => {
       if (filters.sex && w.sex !== filters.sex) return false
       if (search) {
-        const textMatch =
-          w.firstName.toLowerCase().includes(search) ||
-          w.lastName.toLowerCase().includes(search) ||
-          w.region.toLowerCase().includes(search) ||
-          w.phone.toLowerCase().includes(search)
         const idMatch = isUuidSearch && w.id.toLowerCase() === search
-        if (!textMatch && !idMatch) return false
+        if (!idMatch) {
+          const haystack = [
+            w.firstName,
+            w.lastName,
+            w.region,
+            w.phone,
+            w.job,
+            w.description,
+            w.sex === 'male' ? 'erkak male' : 'ayol female',
+            String(w.age),
+          ]
+            .join(' ')
+            .toLowerCase()
+          const keywordMatch = keywords.every((word) => haystack.includes(word))
+          if (!keywordMatch) return false
+        }
       }
       return true
     })
