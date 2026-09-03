@@ -36,7 +36,8 @@ export function DomainDonutCard({ domain, counts }: { domain: DomainKey; counts:
           className="flex h-8 w-8 items-center justify-center rounded-full"
           style={{ backgroundColor: accentBg, color: accent }}
         >
-          <Icon className="h-4 w-4" strokeWidth={2.25} />
+          {/* Filled, not linear — this icon sits on its own plate. */}
+          <Icon className="h-4 w-4" fill="currentColor" strokeWidth={1.5} />
         </span>
         <h3 className="text-sm font-bold" style={{ color: accent }}>
           {t.domain[domain]}

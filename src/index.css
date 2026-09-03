@@ -30,11 +30,22 @@ body {
   font-variant-numeric: tabular-nums;
 }
 
-/* Visible keyboard focus everywhere, including custom interactive cards */
+/* Visible keyboard focus everywhere, including custom interactive cards.
+   Text inputs, selects and textareas are excluded: they already show focus
+   via their own border-color change (see focus:border-brand-500 in their
+   className), so this outline would otherwise stack a second indicator on
+   top of it and briefly override their border-radius. */
 :focus-visible {
   outline: 2px solid #17977e;
   outline-offset: 2px;
   border-radius: 4px;
+}
+
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-radius: inherit;
 }
 
 ::selection {

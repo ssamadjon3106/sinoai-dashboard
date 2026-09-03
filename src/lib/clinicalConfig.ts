@@ -21,7 +21,9 @@ export const RISK_BG_COLORS: Record<RiskBand, string> = {
 }
 
 export const DOMAIN_ACCENT_COLORS: Record<DomainKey, string> = {
-  diabetes: '#B98900',
+  // Darkened from #B98900 to meet 4.5:1 text contrast on white (matches
+  // tailwind.config.ts's domain.diabetes token — keep both in sync).
+  diabetes: '#8A6600',
   cvd: '#A6455C',
   oncology: '#6B5CA5',
 }

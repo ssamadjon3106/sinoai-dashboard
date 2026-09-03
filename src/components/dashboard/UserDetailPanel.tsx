@@ -29,7 +29,7 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
 
   return (
     <div className="flex h-full flex-col">
-      <header className="relative overflow-hidden bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 px-6 py-5 text-white">
+      <header className="relative overflow-hidden bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 px-6 py-5 text-white">
         <span className="pointer-events-none absolute -right-10 -top-14 h-40 w-40 rounded-full bg-white/10 blur-3xl" aria-hidden />
         <div className="relative flex items-start gap-3">
           {patient.photoUrl ? (
@@ -71,7 +71,7 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
       </header>
 
       <div className="flex-1 overflow-y-auto px-6 py-5">
-        <div className="flex cursor-default flex-col items-center rounded-card border border-border bg-surface-sunken/50 py-6">
+        <div className="flex cursor-default flex-col items-center rounded-card bg-surface-sunken py-6">
           <RiskGauge
             percent={activeResult.percent}
             band={activeResult.band}

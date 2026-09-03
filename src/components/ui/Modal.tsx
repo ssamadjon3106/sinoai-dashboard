@@ -30,7 +30,9 @@ export function Modal({ title, onClose, children, maxWidth = 'max-w-md' }: Modal
         aria-modal="true"
         aria-label={title}
         onClick={(e) => e.stopPropagation()}
-        className={`w-full ${maxWidth} rounded-card border border-border bg-surface p-6 shadow-card-hover`}
+        // A floating panel over dimmed content is separated by shadow alone,
+        // not a border on top of it.
+        className={`w-full ${maxWidth} rounded-card bg-surface p-6 shadow-card-hover`}
       >
         <div className="mb-4 flex items-center justify-between">
           <h2 className="font-display text-lg font-bold text-ink-900">{title}</h2>

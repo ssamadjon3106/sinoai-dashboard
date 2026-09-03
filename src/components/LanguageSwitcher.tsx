@@ -6,7 +6,7 @@ export function LanguageSwitcher() {
   const { language, setLanguage } = useI18n()
 
   return (
-    <div role="radiogroup" aria-label="Language" className="inline-flex items-center rounded-full border border-border bg-surface-muted p-0.5">
+    <div role="radiogroup" aria-label="Language" className="inline-flex items-center rounded-full bg-surface-muted p-0.5">
       {LANGUAGES.map((lang) => (
         <button
           key={lang}

@@ -13,14 +13,14 @@ interface StatTileProps {
 
 export function StatTile({ icon: Icon, label, value, hint, accent = '#17977E', percentOfTotal }: StatTileProps) {
   return (
-    <div className="relative overflow-hidden rounded-card border border-border bg-surface p-4 shadow-card transition-shadow duration-200 hover:shadow-card-hover">
-      <span className="absolute inset-x-0 top-0 h-1" style={{ backgroundColor: accent }} />
+    <div className="relative overflow-hidden rounded-card border border-border bg-surface p-4 transition-shadow duration-200 hover:shadow-card-hover">
       <div className="flex items-center gap-2.5">
         <span
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
           style={{ backgroundColor: `${accent}1a`, color: accent }}
         >
-          <Icon className="h-5 w-5" strokeWidth={2.25} />
+          {/* Filled, not linear — this icon sits on its own plate. */}
+          <Icon className="h-5 w-5" fill="currentColor" strokeWidth={1.5} />
         </span>
         <span className="text-xs font-semibold uppercase tracking-wide text-ink-400">{label}</span>
       </div>

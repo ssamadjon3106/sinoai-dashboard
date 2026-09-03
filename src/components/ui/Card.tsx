@@ -9,7 +9,10 @@ export function Card({ className = '', padded = true, interactive = false, ...pr
   return (
     <div
       className={[
-        'rounded-card border border-border bg-surface shadow-card',
+        // Separation from the page background is border-only at rest — no
+        // shadow, no background tint stacked on top of it. A shadow only
+        // ever appears transiently on hover, for cards that are interactive.
+        'rounded-card border border-border bg-surface',
         padded ? 'p-5' : '',
         interactive ? 'transition-shadow duration-200 hover:shadow-card-hover' : '',
         className,

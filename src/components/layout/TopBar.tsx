@@ -46,16 +46,13 @@ export function TopBar() {
           >
             <Bell className="h-4.5 w-4.5" />
             {!!stats?.needsAttention && (
-              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center">
-                <span className="absolute inset-0 animate-ping rounded-full bg-risk-high opacity-60" aria-hidden />
-                <span className="relative flex h-4 min-w-4 items-center justify-center rounded-full bg-risk-high px-1 text-[10px] font-bold text-white">
-                  {stats.needsAttention}
-                </span>
+              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-risk-high px-1 text-[10px] font-bold text-white">
+                {stats.needsAttention}
               </span>
             )}
           </button>
           {alertsOpen && (
-            <div className="absolute right-0 top-11 z-20 w-64 rounded-control border border-border bg-surface p-3 shadow-card-hover">
+            <div className="absolute right-0 top-11 z-20 w-64 rounded-control bg-surface p-3 shadow-card-hover">
               <p className="text-xs font-bold text-ink-700">{t.topbar.alerts}</p>
               {stats?.needsAttention ? (
                 <p className="mt-1.5 text-xs text-ink-500">
@@ -73,7 +70,7 @@ export function TopBar() {
             type="button"
             onClick={() => setProfileOpen((v) => !v)}
             aria-expanded={profileOpen}
-            className="flex items-center gap-2 rounded-full border border-transparent py-1 pl-1 pr-2 hover:border-border hover:bg-surface-muted"
+            className="flex items-center gap-2 rounded-full py-1 pl-1 pr-2 hover:bg-surface-muted"
           >
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-xs font-bold text-white shadow-sm">
               {clinician ? formatInitials(clinician.name.split(' ')[0] ?? 'K', clinician.name.split(' ')[1] ?? 'L') : 'KL'}
@@ -82,7 +79,7 @@ export function TopBar() {
             <ChevronDown className="h-3.5 w-3.5 text-ink-400" />
           </button>
           {profileOpen && (
-            <div className="absolute right-0 top-11 z-20 w-56 rounded-control border border-border bg-surface p-2 shadow-card-hover">
+            <div className="absolute right-0 top-11 z-20 w-56 rounded-control bg-surface p-2 shadow-card-hover">
               <div className="px-2 py-1.5">
                 <p className="text-sm font-semibold text-ink-900">{clinician?.name}</p>
                 <p className="text-xs text-ink-400">{t.topbar.clinician}</p>

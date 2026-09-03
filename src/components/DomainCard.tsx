@@ -1,5 +1,5 @@
 import type { DomainKey, DomainResult } from '@/types'
-import { DOMAIN_ACCENT_BG_COLORS, DOMAIN_ACCENT_COLORS, RISK_COLORS } from '@/lib/clinicalConfig'
+import { DOMAIN_ACCENT_COLORS, RISK_COLORS } from '@/lib/clinicalConfig'
 import { useI18n } from '@/hooks/useI18n'
 
 interface DomainCardProps {
@@ -12,7 +12,6 @@ interface DomainCardProps {
 export function DomainCard({ domain, result, active, onActivate }: DomainCardProps) {
   const { t } = useI18n()
   const accent = DOMAIN_ACCENT_COLORS[domain]
-  const accentBg = DOMAIN_ACCENT_BG_COLORS[domain]
 
   return (
     <button
@@ -20,12 +19,13 @@ export function DomainCard({ domain, result, active, onActivate }: DomainCardPro
       onClick={onActivate}
       aria-pressed={active}
       className={[
-        'group flex-1 min-w-0 rounded-control border p-3.5 text-left transition-all duration-200',
-        active
-          ? 'border-transparent shadow-card-hover -translate-y-0.5'
-          : 'border-border bg-surface hover:-translate-y-0.5 hover:shadow-card',
+        // Selection is a border-color change only — no background tint and
+        // no permanent shadow stacked on top of it. Hover adds a shadow
+        // transiently, on either state.
+        'group flex-1 min-w-0 rounded-control border-2 bg-surface p-3.5 text-left transition-shadow duration-200 hover:shadow-card',
+        active ? '' : 'border-border',
       ].join(' ')}
-      style={active ? { backgroundColor: accentBg, boxShadow: `0 0 0 1.5px ${accent}` } : undefined}
+      style={active ? { borderColor: accent } : undefined}
     >
       <div className="min-w-0">
         <span className="block truncate text-sm font-semibold text-ink-900">{t.domain[domain]}</span>

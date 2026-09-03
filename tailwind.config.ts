@@ -21,7 +21,10 @@ export default {
           900: '#10231F',
           700: '#2A3B37',
           500: '#5B6D68',
-          400: '#8A9B96',
+          // Darkened from #8A9B96 (2.9:1 on white — fails WCAG AA for text)
+          // to meet the 4.5:1 minimum for normal-size text; this token is
+          // used throughout for hint/secondary copy, not just decoration.
+          400: '#64716D',
           300: '#B7C2BF',
         },
         brand: {
@@ -46,7 +49,10 @@ export default {
           'high-border': '#F3C3BE',
         },
         domain: {
-          diabetes: '#B98900',
+          // Darkened from #B98900 (3.2:1 on white — fails WCAG AA for text)
+          // to 4.5:1+; only the diabetes accent needed this, cvd/oncology
+          // already pass.
+          diabetes: '#8A6600',
           'diabetes-bg': '#FBF3DC',
           cvd: '#A6455C',
           'cvd-bg': '#F7E9EC',

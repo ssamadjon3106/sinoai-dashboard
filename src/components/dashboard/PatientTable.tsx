@@ -95,8 +95,10 @@ export function PatientTable({
                       }
                     }}
                     className={[
+                      // Selection is the left accent border alone (below) —
+                      // no background tint stacked on top of it.
                       'group cursor-pointer border-b border-border/70 transition-colors',
-                      isActive ? 'bg-brand-50/70' : 'hover:bg-surface-sunken',
+                      isActive ? '' : 'hover:bg-surface-sunken',
                     ].join(' ')}
                     style={isActive ? { boxShadow: 'inset 3px 0 0 0 #17977E' } : undefined}
                   >

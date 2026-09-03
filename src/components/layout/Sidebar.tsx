@@ -27,16 +27,14 @@ export function Sidebar() {
         >
           {({ isActive }) => (
             <>
-              {isActive && (
-                <span className="absolute inset-y-1.5 left-0 w-1 rounded-full bg-gradient-to-b from-brand-500 to-brand-700" aria-hidden />
-              )}
               <span
                 className={[
                   'flex h-7 w-7 shrink-0 items-center justify-center rounded-full transition-colors',
-                  isActive ? 'bg-white text-brand-600 shadow-sm' : 'text-ink-400 group-hover:text-ink-600',
+                  isActive ? 'bg-white text-brand-600' : 'text-ink-400 group-hover:text-ink-600',
                 ].join(' ')}
               >
-                <item.icon className="h-4 w-4" strokeWidth={2.25} />
+                {/* Filled, not linear, only when it sits on its own plate (active). */}
+                <item.icon className="h-4 w-4" fill={isActive ? 'currentColor' : 'none'} strokeWidth={isActive ? 1.5 : 2.25} />
               </span>
               {item.label}
             </>

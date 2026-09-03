@@ -27,7 +27,7 @@ export function OverviewPage() {
       <PageHeader title={t.overview.title} subtitle={t.overview.subtitle} />
 
       <div className="space-y-6 p-6">
-        <div className="animate-fade-up relative overflow-hidden rounded-card bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 p-6 text-white shadow-card-hover sm:p-8">
+        <div className="animate-fade-up relative overflow-hidden rounded-card bg-gradient-to-br from-brand-500 via-brand-600 to-brand-700 p-6 text-white sm:p-8">
           <span className="pointer-events-none absolute -right-12 -top-16 h-56 w-56 rounded-full bg-white/10 blur-3xl" aria-hidden />
           <span className="pointer-events-none absolute -bottom-20 left-1/3 h-52 w-52 rounded-full bg-white/5 blur-3xl" aria-hidden />
           <div className="relative flex flex-wrap items-center justify-between gap-6">
