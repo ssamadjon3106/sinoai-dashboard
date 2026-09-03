@@ -29,24 +29,25 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
 
   return (
     <div className="flex h-full flex-col">
-      <header className="border-b border-border px-6 py-5">
-        <div className="flex items-start gap-3">
+      <header className="relative overflow-hidden bg-gradient-to-br from-brand-600 via-brand-700 to-brand-900 px-6 py-5 text-white">
+        <span className="pointer-events-none absolute -right-10 -top-14 h-40 w-40 rounded-full bg-white/10 blur-3xl" aria-hidden />
+        <div className="relative flex items-start gap-3">
           {patient.photoUrl ? (
             <img
               src={patient.photoUrl}
               alt=""
-              className="h-11 w-11 shrink-0 rounded-full object-cover"
+              className="h-11 w-11 shrink-0 rounded-full object-cover ring-2 ring-white/40"
             />
           ) : (
-            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-brand-100 font-display text-sm font-bold text-brand-700">
+            <span className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-white/15 font-display text-sm font-bold text-white ring-2 ring-white/40">
               {formatInitials(patient.firstName, patient.lastName)}
             </span>
           )}
           <div className="min-w-0 flex-1">
-            <h2 className="truncate font-display text-lg font-bold text-ink-900">
+            <h2 className="truncate font-display text-lg font-bold text-white">
               {patient.firstName} {patient.lastName}
             </h2>
-            <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink-500">
+            <div className="mt-0.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-brand-100">
               <span>
                 {patient.age} {t.common.years} · {patient.sex === 'male' ? t.table.male : t.table.female}
               </span>
@@ -61,7 +62,7 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
               type="button"
               onClick={onClose}
               aria-label={t.common.close}
-              className="rounded-full p-1.5 text-ink-400 hover:bg-surface-muted hover:text-ink-700"
+              className="rounded-full p-1.5 text-brand-100 hover:bg-white/15 hover:text-white"
             >
               <X className="h-4 w-4" />
             </button>

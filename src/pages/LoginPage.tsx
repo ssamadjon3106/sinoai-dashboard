@@ -44,7 +44,10 @@ export function LoginPage() {
         </div>
 
         <div className="flex flex-1 items-center justify-center px-6 pb-16">
-          <div className="w-full max-w-sm rounded-card border border-border bg-surface p-8 shadow-card-hover">
+          <div className="w-full max-w-sm rounded-card border border-white/60 bg-surface/70 p-8 shadow-card-hover backdrop-blur-xl">
+            <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-brand-500 to-brand-700 shadow-card">
+              <img src="/logo.svg" alt="" className="h-7 w-7 rounded-md" />
+            </div>
             <h1 className="font-display text-2xl font-extrabold text-ink-900">{t.login.title}</h1>
             <p className="mt-1.5 text-sm text-ink-500">{t.login.subtitle}</p>
 

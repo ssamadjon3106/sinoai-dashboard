@@ -95,9 +95,10 @@ export function PatientTable({
                       }
                     }}
                     className={[
-                      'cursor-pointer border-b border-border/70 transition-colors',
+                      'group cursor-pointer border-b border-border/70 transition-colors',
                       isActive ? 'bg-brand-50/70' : 'hover:bg-surface-sunken',
                     ].join(' ')}
+                    style={isActive ? { boxShadow: 'inset 3px 0 0 0 #17977E' } : undefined}
                   >
                     <td className="px-4 py-2.5">
                       <div className="flex items-center gap-3">
@@ -105,10 +106,10 @@ export function PatientTable({
                           <img
                             src={patient.photoUrl}
                             alt=""
-                            className="h-9 w-9 shrink-0 rounded-full object-cover"
+                            className="h-9 w-9 shrink-0 rounded-full object-cover ring-2 ring-transparent transition-all group-hover:ring-brand-100"
                           />
                         ) : (
-                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700">
+                          <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-brand-100 to-brand-200 text-xs font-bold text-brand-700">
                             {formatInitials(patient.firstName, patient.lastName)}
                           </span>
                         )}

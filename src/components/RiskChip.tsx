@@ -35,9 +35,10 @@ export function RiskChip({ domain, band, percent, applicable, size = 'sm' }: Ris
 
   return (
     <span
-      className={`inline-flex items-center gap-1 rounded-full border ${TONE_CLASSES[band]} ${padding} font-semibold tabular-nums`}
+      className={`inline-flex items-center gap-1.5 rounded-full border ${TONE_CLASSES[band]} ${padding} font-bold tabular-nums`}
       title={`${t.domain[domain]}: ${t.riskBand[band]}`}
     >
+      <span className="h-1.5 w-1.5 shrink-0 rounded-full bg-current" aria-hidden />
       <span>{percent}%</span>
     </span>
   )

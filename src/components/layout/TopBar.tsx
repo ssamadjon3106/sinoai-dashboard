@@ -19,7 +19,7 @@ export function TopBar() {
   return (
     <header className="flex h-16 shrink-0 items-center gap-4 border-b border-border bg-surface px-5">
       <div className="flex items-center gap-2">
-        <img src="/logo.svg" alt="" className="h-8 w-8 rounded-lg" />
+        <img src="/logo.svg" alt="" className="h-8 w-8 rounded-lg shadow-sm" />
         <span className="font-display text-base font-extrabold text-ink-900">{t.app.name}</span>
       </div>
 
@@ -46,8 +46,11 @@ export function TopBar() {
           >
             <Bell className="h-4.5 w-4.5" />
             {!!stats?.needsAttention && (
-              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-risk-high px-1 text-[10px] font-bold text-white">
-                {stats.needsAttention}
+              <span className="absolute right-1 top-1 flex h-4 min-w-4 items-center justify-center">
+                <span className="absolute inset-0 animate-ping rounded-full bg-risk-high opacity-60" aria-hidden />
+                <span className="relative flex h-4 min-w-4 items-center justify-center rounded-full bg-risk-high px-1 text-[10px] font-bold text-white">
+                  {stats.needsAttention}
+                </span>
               </span>
             )}
           </button>
@@ -72,7 +75,7 @@ export function TopBar() {
             aria-expanded={profileOpen}
             className="flex items-center gap-2 rounded-full border border-transparent py-1 pl-1 pr-2 hover:border-border hover:bg-surface-muted"
           >
-            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-100 text-xs font-bold text-brand-700">
+            <span className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-br from-brand-500 to-brand-700 text-xs font-bold text-white shadow-sm">
               {clinician ? formatInitials(clinician.name.split(' ')[0] ?? 'K', clinician.name.split(' ')[1] ?? 'L') : 'KL'}
             </span>
             <span className="hidden text-xs font-semibold text-ink-700 sm:inline">{clinician?.name ?? t.topbar.clinician}</span>
