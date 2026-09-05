@@ -94,7 +94,7 @@ export const uz: UiStrings = {
     needsAttentionModalTitle: 'Diqqat talab qiladigan xodimlar',
     perDomainBreakdown: 'Yo‘nalishlar bo‘yicha taqsimot',
     atRisk: 'xavf ostida',
-    heroGreeting: 'Xush kelibsiz,',
+    heroGreeting: 'Salom,',
     heroTagline: 'Jamoa salomatligi nazorat ostida',
     wellnessTrendTitle: 'Jamoa salomatligi dinamikasi',
     wellnessTrendSubtitle: 'So‘nggi 12 hafta davomida umumiy salomatlik indeksi',
@@ -106,6 +106,8 @@ export const uz: UiStrings = {
     riskScoringMet: 'MET',
     diseaseBreakdownTitle: 'Kasalliklar turlari bo‘yicha batafsil tahlil',
     oncologyTypesTitle: 'Onkologik kasalliklar turlari',
+    oncologyFemaleTitle: 'Ayollarda',
+    oncologyMaleTitle: 'Erkaklarda',
     cvdTypesTitle: 'Yurak-qon tomir kasalliklari turlari',
     absenteeismTitle: 'Ishga kelmaslik va samaradorlik pasayishi tahlili',
     absenteeismTermLabel: 'Absenteizm',
@@ -119,6 +121,7 @@ export const uz: UiStrings = {
     title: 'Bo‘limlar',
     subtitle: 'Har bir bo‘lim bo‘yicha o‘rtacha tiklanish, uyqu va faollik ko‘rsatkichlari hamda HR uchun AI tavsiyalari',
     workersLabel: 'xodim',
+    backAction: 'Bo‘limlar',
   },
   worker: {
     addAction: 'Xodim qo‘shish',
@@ -161,6 +164,7 @@ export const uz: UiStrings = {
   },
   detail: {
     wellnessIndexLabel: 'Salomatlik indeksi',
+    wellnessIndexExplain: 'Tiklanish, uyqu sifati, faollik, MET va stress ko‘rsatkichlari asosida hisoblangan tarkibiy ko‘rsatkich.',
     normalRange: 'Me’yor',
     analysisTitle: 'Analiz natijasi',
     readMore: 'Batafsil o‘qish',

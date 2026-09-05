@@ -94,7 +94,7 @@ export const en: UiStrings = {
     needsAttentionModalTitle: 'Workers needing attention',
     perDomainBreakdown: 'Breakdown by domain',
     atRisk: 'at risk',
-    heroGreeting: 'Welcome back,',
+    heroGreeting: 'Hi,',
     heroTagline: "Your team's health, at a glance",
     wellnessTrendTitle: "Team wellness trend",
     wellnessTrendSubtitle: 'Overall wellness index over the last 12 weeks',
@@ -106,6 +106,8 @@ export const en: UiStrings = {
     riskScoringMet: 'MET',
     diseaseBreakdownTitle: 'Detailed breakdown by disease type',
     oncologyTypesTitle: 'Oncology disease types',
+    oncologyFemaleTitle: 'In women',
+    oncologyMaleTitle: 'In men',
     cvdTypesTitle: 'Cardiovascular disease types',
     absenteeismTitle: 'Absenteeism & presenteeism analysis',
     absenteeismTermLabel: 'Absenteeism',
@@ -119,6 +121,7 @@ export const en: UiStrings = {
     title: 'Departments',
     subtitle: "Average recovery, sleep and activity per department, with AI-generated recommendations for HR",
     workersLabel: 'workers',
+    backAction: 'Departments',
   },
   worker: {
     addAction: 'Add worker',
@@ -161,6 +164,7 @@ export const en: UiStrings = {
   },
   detail: {
     wellnessIndexLabel: 'Wellness index',
+    wellnessIndexExplain: 'A composite score calculated from recovery, sleep quality, activity, MET, and stress levels.',
     normalRange: 'Normal',
     analysisTitle: 'Analysis result',
     readMore: 'Read more',

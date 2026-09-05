@@ -63,7 +63,7 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
       </header>
 
       <div className="flex-1 overflow-y-auto px-6 py-5">
-        <div className="flex cursor-default flex-col items-center rounded-card bg-surface-sunken py-6">
+        <div className="flex cursor-default flex-col items-center rounded-card bg-surface-sunken px-6 py-6">
           <RiskGauge
             percent={index}
             band={indexBand}
@@ -73,6 +73,7 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
             topLabel={t.detail.wellnessIndexLabel}
             bottomLabel={indexBandLabel}
           />
+          <p className="mt-3 max-w-xs text-center text-xs leading-relaxed text-ink-400">{t.detail.wellnessIndexExplain}</p>
         </div>
 
         {/* Wellness metric tiles — replace the old diabetes/CVD/oncology

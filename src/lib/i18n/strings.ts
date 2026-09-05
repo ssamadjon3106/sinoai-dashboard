@@ -112,6 +112,8 @@ export interface UiStrings {
     riskScoringMet: string
     diseaseBreakdownTitle: string
     oncologyTypesTitle: string
+    oncologyFemaleTitle: string
+    oncologyMaleTitle: string
     cvdTypesTitle: string
     absenteeismTitle: string
     absenteeismTermLabel: string
@@ -125,6 +127,7 @@ export interface UiStrings {
     title: string
     subtitle: string
     workersLabel: string
+    backAction: string
   }
   worker: {
     addAction: string
@@ -167,6 +170,7 @@ export interface UiStrings {
   }
   detail: {
     wellnessIndexLabel: string
+    wellnessIndexExplain: string
     normalRange: string
     analysisTitle: string
     readMore: string

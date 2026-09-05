@@ -42,6 +42,12 @@ function BreakdownRows({ entries, color }: { entries: DiseaseBreakdownEntry[]; c
 export function DiseaseBreakdownCard() {
   const { t, language } = useI18n()
 
+  // Oncology sites are screened by sex — breast/uterine in women, prostate
+  // in men, stomach in both — so the breakdown groups them accordingly
+  // instead of implying every type applies to every worker (item 5 fix).
+  const femaleTypes = ONCOLOGY_TYPES.filter((e) => e.sex !== 'male')
+  const maleTypes = ONCOLOGY_TYPES.filter((e) => e.sex !== 'female')
+
   return (
     <Card>
       <div className="mb-1 flex items-center gap-2">
@@ -50,15 +56,23 @@ export function DiseaseBreakdownCard() {
       </div>
       <p className="mb-5 text-sm leading-relaxed text-ink-500">{buildDiseaseBreakdownIntro(language)}</p>
 
-      <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
-        <div>
-          <h4 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink-400">{t.overview.oncologyTypesTitle}</h4>
-          <BreakdownRows entries={ONCOLOGY_TYPES} color={DOMAIN_ACCENT_COLORS.oncology} />
+      <div className="mb-6">
+        <h4 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink-400">{t.overview.oncologyTypesTitle}</h4>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2">
+          <div>
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-400">{t.overview.oncologyFemaleTitle}</p>
+            <BreakdownRows entries={femaleTypes} color={DOMAIN_ACCENT_COLORS.oncology} />
+          </div>
+          <div>
+            <p className="mb-2 text-[11px] font-semibold uppercase tracking-wide text-ink-400">{t.overview.oncologyMaleTitle}</p>
+            <BreakdownRows entries={maleTypes} color={DOMAIN_ACCENT_COLORS.oncology} />
+          </div>
         </div>
-        <div>
-          <h4 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink-400">{t.overview.cvdTypesTitle}</h4>
-          <BreakdownRows entries={CVD_TYPES} color={DOMAIN_ACCENT_COLORS.cvd} />
-        </div>
+      </div>
+
+      <div>
+        <h4 className="mb-3 text-xs font-bold uppercase tracking-wide text-ink-400">{t.overview.cvdTypesTitle}</h4>
+        <BreakdownRows entries={CVD_TYPES} color={DOMAIN_ACCENT_COLORS.cvd} />
       </div>
     </Card>
   )

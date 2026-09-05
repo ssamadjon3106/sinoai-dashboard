@@ -104,7 +104,9 @@ export function RiskGauge({
           })}
       </svg>
       <div className="absolute inset-0 flex flex-col items-center justify-center text-center px-6">
-        {topLabel && <span className="text-xs font-semibold uppercase tracking-wide text-ink-400 mb-1">{topLabel}</span>}
+        {topLabel && (
+          <span className="mb-1 whitespace-nowrap text-[10px] font-semibold uppercase tracking-wide text-ink-400">{topLabel}</span>
+        )}
         {applicable ? (
           <div className="flex items-start leading-none font-display font-extrabold tabular-nums" style={{ color }}>
             <span style={{ fontSize: size * 0.2 }}>{Math.round(clamped)}</span>

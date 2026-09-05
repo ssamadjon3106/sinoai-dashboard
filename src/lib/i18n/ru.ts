@@ -94,7 +94,7 @@ export const ru: UiStrings = {
     needsAttentionModalTitle: 'Сотрудники, требующие внимания',
     perDomainBreakdown: 'Распределение по направлениям',
     atRisk: 'в группе риска',
-    heroGreeting: 'С возвращением,',
+    heroGreeting: 'Привет,',
     heroTagline: 'Здоровье вашей команды под контролем',
     wellnessTrendTitle: 'Динамика здоровья команды',
     wellnessTrendSubtitle: 'Общий индекс здоровья за последние 12 недель',
@@ -106,6 +106,8 @@ export const ru: UiStrings = {
     riskScoringMet: 'MET',
     diseaseBreakdownTitle: 'Детальный разбор по типам заболеваний',
     oncologyTypesTitle: 'Типы онкологических заболеваний',
+    oncologyFemaleTitle: 'У женщин',
+    oncologyMaleTitle: 'У мужчин',
     cvdTypesTitle: 'Типы сердечно-сосудистых заболеваний',
     absenteeismTitle: 'Анализ отсутствия на работе и презентеизма',
     absenteeismTermLabel: 'Абсентеизм',
@@ -119,6 +121,7 @@ export const ru: UiStrings = {
     title: 'Отделы',
     subtitle: 'Средние показатели восстановления, сна и активности по каждому отделу, а также AI-рекомендации для HR',
     workersLabel: 'сотрудников',
+    backAction: 'Отделы',
   },
   worker: {
     addAction: 'Добавить сотрудника',
@@ -161,6 +164,7 @@ export const ru: UiStrings = {
   },
   detail: {
     wellnessIndexLabel: 'Индекс здоровья',
+    wellnessIndexExplain: 'Составной показатель, рассчитанный на основе восстановления, качества сна, активности, MET и уровня стресса.',
     normalRange: 'Норма',
     analysisTitle: 'Результат анализа',
     readMore: 'Читать подробнее',
