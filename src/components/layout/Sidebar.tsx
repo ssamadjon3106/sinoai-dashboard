@@ -1,5 +1,5 @@
 import { NavLink } from 'react-router-dom'
-import { LayoutDashboard, Settings, Users } from 'lucide-react'
+import { Building2, LayoutDashboard, Settings, Users } from 'lucide-react'
 import { useI18n } from '@/hooks/useI18n'
 
 export function Sidebar() {
@@ -8,6 +8,7 @@ export function Sidebar() {
   const items = [
     { to: '/overview', label: t.nav.overview, icon: LayoutDashboard, end: false },
     { to: '/', label: t.nav.users, icon: Users, end: true },
+    { to: '/departments', label: t.nav.departments, icon: Building2, end: false },
     { to: '/settings', label: t.nav.settings, icon: Settings, end: false },
   ]
 

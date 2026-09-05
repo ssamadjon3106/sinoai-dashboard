@@ -11,6 +11,7 @@ export interface UiStrings {
   nav: {
     users: string
     overview: string
+    departments: string
     settings: string
   }
   topbar: {
@@ -52,9 +53,10 @@ export interface UiStrings {
   table: {
     patient: string
     ageSex: string
-    diabetes: string
-    cvd: string
-    oncology: string
+    department: string
+    recovery: string
+    sleep: string
+    met: string
     searchPlaceholder: string
     noResults: string
     noResultsHint: string
@@ -66,18 +68,63 @@ export interface UiStrings {
     female: string
     yearsShort: string
   }
+  department: {
+    warehouse: string
+    production: string
+    logistics: string
+    management: string
+  }
+  wellness: {
+    recoveryLabel: string
+    sleepLabel: string
+    metLabel: string
+    activityLabel: string
+    stressLabel: string
+    bandGood: string
+    bandModerate: string
+    bandPoor: string
+    bandCalm: string
+    bandElevated: string
+    bandHigh: string
+  }
   overview: {
     title: string
     subtitle: string
+    heroWelcome: string
     totalEnrolled: string
     normalUsers: string
     normalUsersHint: string
+    healthIndexExplain: string
     needsAttention: string
     needsAttentionHint: string
+    needsAttentionModalTitle: string
     perDomainBreakdown: string
     atRisk: string
     heroGreeting: string
     heroTagline: string
+    wellnessTrendTitle: string
+    wellnessTrendSubtitle: string
+    riskScoringTitle: string
+    riskScoringSubtitle: string
+    riskScoringSleep: string
+    riskScoringActivity: string
+    riskScoringStress: string
+    riskScoringMet: string
+    diseaseBreakdownTitle: string
+    oncologyTypesTitle: string
+    cvdTypesTitle: string
+    absenteeismTitle: string
+    absenteeismTermLabel: string
+    absenteeismTermExplain: string
+    presenteeismTermLabel: string
+    presenteeismTermExplain: string
+    absenteeismDaysLabel: string
+    presenteeismLossLabel: string
+  }
+  departmentsPage: {
+    title: string
+    subtitle: string
+    workersLabel: string
   }
   worker: {
     addAction: string
@@ -112,7 +159,6 @@ export interface UiStrings {
     loadError: string
   }
   riskInsights: {
-    title: string
     riskOverviewLabel: string
     suggestionLabel: string
     notApplicable: string
@@ -120,6 +166,7 @@ export interface UiStrings {
     loadError: string
   }
   detail: {
+    wellnessIndexLabel: string
     normalRange: string
     analysisTitle: string
     readMore: string

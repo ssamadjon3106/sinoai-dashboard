@@ -9,11 +9,20 @@ interface StatTileProps {
   accent?: string
   /** Optional "N%" badge next to the value, e.g. share of total enrolled. */
   percentOfTotal?: number
+  /** When provided, the whole tile becomes a button (e.g. Overview's "Needs attention" tile opens a list). */
+  onClick?: () => void
 }
 
-export function StatTile({ icon: Icon, label, value, hint, accent = '#17977E', percentOfTotal }: StatTileProps) {
+export function StatTile({ icon: Icon, label, value, hint, accent = '#17977E', percentOfTotal, onClick }: StatTileProps) {
+  const Wrapper = onClick ? 'button' : 'div'
   return (
-    <div className="relative overflow-hidden rounded-card border border-border bg-surface p-4 transition-shadow duration-200 hover:shadow-card-hover">
+    <Wrapper
+      {...(onClick ? { type: 'button' as const, onClick } : {})}
+      className={[
+        'relative w-full overflow-hidden rounded-card border border-border bg-surface p-4 text-left transition-shadow duration-200 hover:shadow-card-hover',
+        onClick ? 'cursor-pointer' : '',
+      ].join(' ')}
+    >
       <div className="flex items-center gap-2.5">
         <span
           className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full"
@@ -36,6 +45,6 @@ export function StatTile({ icon: Icon, label, value, hint, accent = '#17977E', p
         )}
       </div>
       {hint && <p className="mt-0.5 text-xs text-ink-400">{hint}</p>}
-    </div>
+    </Wrapper>
   )
 }

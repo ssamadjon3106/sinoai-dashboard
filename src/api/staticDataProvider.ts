@@ -12,6 +12,7 @@ import type {
   WeeklyRecommendationResponse,
 } from '@/types'
 import { demoWorkers } from '@/data/demoWorkers'
+import { buildWeeklySummary, buildWeeklyTasks, buildWorkerRiskOverview, buildWorkerSuggestion } from '@/lib/aiCopy'
 import type { ClinicianProfile, DataProvider, LoginResult, UserListFilters } from './dataProvider'
 
 /**
@@ -153,6 +154,11 @@ export class StaticDataProvider implements DataProvider {
       insuranceNumber: input.insuranceNumber || null,
       assessed: false,
       sinoaiUserId: input.sinoaiUserId || null,
+      // Neutral starting point for a freshly-added worker — no wearable/app
+      // history yet, so every metric sits at a moderate midpoint rather than
+      // implying data that doesn't exist.
+      department: 'production',
+      wellness: { recovery: 50, sleepScore: 50, met: 4, activityScore: 50, stressScore: 50 },
       measurements: { bmi: 0 },
       domains: pendingDomains(now),
     }
@@ -181,25 +187,22 @@ export class StaticDataProvider implements DataProvider {
     this.workers.splice(index, 1)
   }
 
-  // ---- AI panels (static copy — see server/app/api/{insights,weekly}.py for the same fallback text) ----
+  // ---- AI panels ----
+  // Every AI-authored string is generated in third-party voice, grounded in
+  // the worker's own wellness numbers, via src/lib/aiCopy.ts — never a
+  // static, per-worker canned paragraph (see that module for the full
+  // rationale, including why the old per-domain analysisSummary text in
+  // demoWorkers.ts is no longer read here).
 
   async getInsights(id: string, lang: string): Promise<InsightsResponse> {
     const worker = this.workers.find((w) => w.id === id)
     if (!worker) throw new Error('Not found')
     if (!worker.assessed) return { notApplicable: true }
 
-    // Every pre-seeded demo worker is `assessed`, so this is the branch that
-    // actually renders for them: build the overview from the worker's own
-    // real per-domain analysisSummary text (already tailored per person)
-    // rather than a generic message.
-    const applicableDomain = DOMAIN_KEYS.find((d) => worker.domains[d].applicable)
-    const riskOverview = applicableDomain
-      ? localize(worker.domains[applicableDomain].analysisSummary, lang)
-      : localize(INSIGHTS_SUGGESTION_FALLBACK, lang)
-
+    const language = asLang(lang)
     return {
-      riskOverview,
-      suggestion: localize(INSIGHTS_SUGGESTION_FALLBACK, lang),
+      riskOverview: buildWorkerRiskOverview(worker.wellness, language),
+      suggestion: buildWorkerSuggestion(worker.wellness, language),
       generatedAt: new Date().toISOString(),
     }
   }
@@ -209,20 +212,14 @@ export class StaticDataProvider implements DataProvider {
     if (!worker) throw new Error('Not found')
     if (!worker.sinoaiUserId) return { notLinked: true }
 
-    // Two of the demo workers (Samadjon Sayfullayev, Alisher Akmaljonov) are
-    // pre-seeded with a sinoaiUserId and get copy tailored to their own real
-    // domain data (see CUSTOM_WEEKLY below) instead of the generic fallback —
-    // everyone else who picks up a sinoaiUserId via the demo's add/edit form
-    // during the session gets the same generic WEEKLY_FALLBACK copy the real
-    // server shows while live SinoAI/OpenAI calls aren't wired up.
     const now = new Date()
-    const custom = CUSTOM_WEEKLY[worker.id]
-    const source = custom ? custom[asLang(lang)] : WEEKLY_FALLBACK[asLang(lang)]
+    const language = asLang(lang)
+    const tasks = buildWeeklyTasks(worker.wellness, language)
     return {
       isoYear: getISOWeekYear(now),
       isoWeek: getISOWeek(now),
-      summary: source.summary,
-      tasks: source.tasks.map((text, i) => ({ id: `${custom ? 'custom' : 'static'}-${i}`, text })),
+      summary: buildWeeklySummary(worker.wellness, language),
+      tasks: tasks.map((text, i) => ({ id: `weekly-${i}`, text })),
       generatedAt: now.toISOString(),
     }
   }
@@ -259,10 +256,6 @@ function splitFullName(fullName: string): [string, string] {
 
 function asLang(lang: string): keyof LocalizedText {
   return lang === 'uz' || lang === 'ru' || lang === 'en' ? lang : 'en'
-}
-
-function localize(text: LocalizedText, lang: string): string {
-  return text[asLang(lang)]
 }
 
 // Identical copy to server/app/api/patients.py's `_PENDING_TEXT` — shown for
@@ -314,116 +307,10 @@ function pendingDomains(nowIso: string): PatientDomains {
   }
 }
 
-// Identical copy to server/app/api/insights.py's `_STATIC_FALLBACK.suggestion`
-// — the "what should the company do" half of the Risk Insights card, paired
-// above with the worker's own real analysisSummary text as the "overview" half.
-const INSIGHTS_SUGGESTION_FALLBACK: LocalizedText = {
-  uz: "Xodim bilan yaqin orada suhbat o'tkazing va zarur bo'lsa mutaxassisga yo'naltiring. Kuzatuvni davom ettiring va natijalar o'zgarsa qayta baholang.",
-  ru: 'Проведите беседу с сотрудником в ближайшее время и при необходимости направьте к специалисту. Продолжайте наблюдение и переоцените ситуацию при изменении показателей.',
-  en: 'Check in with the worker soon and refer them to a specialist if needed. Keep monitoring and re-evaluate if the results change.',
-}
-
-// Per-worker weekly-recommendation copy for the two demo workers given a
-// fake sinoaiUserId (see demoWorkers.ts) — written from each worker's own
-// real domains.* data so the linked-account state reads as tailored rather
-// than generic: Samadjon (diabetes 37% high, on metformin; cvd 22%
-// moderate/hypertension) and Alisher (diabetes 40% high; cvd 24% moderate;
-// ongoing lower back pain/muscle spasms; overdue hormone panel).
-const CUSTOM_WEEKLY: Record<string, Record<keyof LocalizedText, { summary: string; tasks: string[] }>> = {
-  // Samadjon Sayfullayev
-  'daedfe05-f9d7-4ab6-8d92-c4b9d3b85539': {
-    uz: {
-      summary:
-        "Bu hafta ham qandli diabet va qon bosimi ko'rsatkichlaringiz asosiy e'tibor markazida bo'lib qolmoqda. Metformin qabulini uzmang va shakar darajangizni muntazam kuzatib boring.",
-      tasks: [
-        'Metforminni shifokor belgilagan dozada, har kuni bir xil vaqtda iching',
-        "Qon shakarini har kuni ertalab, ovqatlanishdan oldin o'lchang",
-        'Tuz iste’molini kamaytiring va qon bosimingizni haftada kamida 3 marta tekshiring',
-        'Endokrinologga navbatdagi tashrifni belgilang',
-      ],
-    },
-    ru: {
-      summary:
-        'На этой неделе показатели сахара в крови и артериального давления по-прежнему требуют внимания. Продолжайте приём метформина и регулярно контролируйте уровень глюкозы.',
-      tasks: [
-        'Принимайте метформин строго по назначенной дозировке в одно и то же время',
-        'Измеряйте уровень сахара в крови каждое утро натощак',
-        'Ограничьте потребление соли и проверяйте давление минимум 3 раза в неделю',
-        'Запишитесь на приём к эндокринологу для контроля лечения',
-      ],
-    },
-    en: {
-      summary:
-        'Your blood sugar and blood pressure remain this week\'s focus. Keep taking metformin as prescribed and continue monitoring your glucose levels.',
-      tasks: [
-        'Take metformin exactly as prescribed, at the same time each day',
-        'Check your fasting blood glucose every morning',
-        'Reduce salt intake and check your blood pressure at least 3 times this week',
-        'Schedule a follow-up visit with your endocrinologist',
-      ],
-    },
-  },
-  // Alisher Akmaljonov
-  '3d51baf3-f109-4359-aa85-0e44295554bd': {
-    uz: {
-      summary:
-        "Bu hafta bel og'rig'ingiz va qandli diabet ko'rsatkichlaringiz asosiy e'tibor markazida. Mushaklarni bo'shashtiruvchi mashqlarni davom ettiring va kechiktirilgan gormonlar tahlilini unutmang.",
-      tasks: [
-        "Har kuni yengil cho'zilish (stretching) mashqlarini bajaring",
-        'Uzoq vaqt bir xil holatda o‘tirishdan saqlaning — har soatda tanaffus qiling',
-        'Kechiktirilgan gormonlar tahlilini topshiring',
-        'Qon shakaringizni haftada kamida 3 marta o‘lchab boring',
-      ],
-    },
-    ru: {
-      summary:
-        'На этой неделе в фокусе — боль в пояснице и показатели сахара в крови. Продолжайте упражнения на расслабление мышц и не забудьте про отложенный анализ на гормоны.',
-      tasks: [
-        'Выполняйте лёгкую растяжку каждый день',
-        'Избегайте долгого сидения в одной позе — делайте перерыв каждый час',
-        'Сдайте отложенный анализ на гормоны',
-        'Измеряйте уровень сахара в крови минимум 3 раза в неделю',
-      ],
-    },
-    en: {
-      summary:
-        "Your lower back pain and blood sugar levels are this week's focus. Keep up the gentle stretching and don't forget the overdue hormone panel.",
-      tasks: [
-        'Do gentle stretching exercises every day',
-        'Avoid sitting in one position too long — take a break every hour',
-        'Complete the overdue hormone blood test',
-        'Check your blood glucose at least 3 times this week',
-      ],
-    },
-  },
-}
-
-// Identical copy to server/app/api/weekly.py's `_STATIC_FALLBACK` — shown for
-// every worker without a linked sinoaiUserId (all 12 pre-seeded demo workers).
-const WEEKLY_FALLBACK: Record<keyof LocalizedText, { summary: string; tasks: string[] }> = {
-  uz: {
-    summary: "Bu hafta uchun umumiy sog'liqni saqlash tavsiyalari (SinoAI'ga ulanmagan yoki AI xulosa hali sozlanmagan).",
-    tasks: [
-      'Har kuni kamida 20-30 daqiqa piyoda yuring',
-      'Kuniga 6-8 stakan suv ichishga harakat qiling',
-      'Uyqu tartibini kuzating (kamida 7 soat)',
-    ],
-  },
-  ru: {
-    summary:
-      'Общие рекомендации по здоровью на эту неделю (аккаунт не привязан к SinoAI или AI-сводка ещё не настроена).',
-    tasks: [
-      'Гуляйте пешком минимум 20-30 минут каждый день',
-      'Старайтесь выпивать 6-8 стаканов воды в день',
-      'Следите за режимом сна (не менее 7 часов)',
-    ],
-  },
-  en: {
-    summary: "General wellness guidance for this week (not yet linked to SinoAI, or the AI summary isn't configured yet).",
-    tasks: [
-      'Take at least a 20-30 minute walk every day',
-      'Aim for 6-8 glasses of water a day',
-      'Keep a consistent sleep schedule (at least 7 hours)',
-    ],
-  },
-}
+// Weekly-recommendation and risk-insight copy for every worker is now
+// generated on the fly from their wellness numbers in third-party voice —
+// see src/lib/aiCopy.ts's buildWeeklySummary/buildWeeklyTasks/
+// buildWorkerRiskOverview/buildWorkerSuggestion. The two demo workers with a
+// pre-seeded sinoaiUserId (Samadjon Sayfullayev, Alisher Akmaljonov) get
+// naturally-tailored output because that generator reads their own real
+// (fabricated) wellness data, without needing a hardcoded per-worker table.

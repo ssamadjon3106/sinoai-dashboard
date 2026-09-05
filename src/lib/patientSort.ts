@@ -1,6 +1,6 @@
 import type { Patient } from '@/types'
 
-export type PatientSortKey = 'name' | 'age' | 'diabetes' | 'cvd' | 'oncology'
+export type PatientSortKey = 'name' | 'age' | 'department' | 'recovery' | 'sleep' | 'met'
 export type SortDirection = 'asc' | 'desc'
 
 function sortValue(patient: Patient, key: PatientSortKey): number | string {
@@ -9,12 +9,14 @@ function sortValue(patient: Patient, key: PatientSortKey): number | string {
       return `${patient.lastName} ${patient.firstName}`.toLowerCase()
     case 'age':
       return patient.age
-    case 'diabetes':
-      return patient.domains.diabetes.percent
-    case 'cvd':
-      return patient.domains.cvd.applicable ? patient.domains.cvd.percent : -1
-    case 'oncology':
-      return patient.domains.oncology.percent
+    case 'department':
+      return patient.department
+    case 'recovery':
+      return patient.wellness.recovery
+    case 'sleep':
+      return patient.wellness.sleepScore
+    case 'met':
+      return patient.wellness.met
   }
 }
 

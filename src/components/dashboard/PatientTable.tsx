@@ -1,9 +1,10 @@
 import { ArrowDown, ArrowUp, ArrowUpDown, Pencil, SearchX, Trash2 } from 'lucide-react'
 import type { Patient } from '@/types'
 import type { PatientSortKey, SortDirection } from '@/lib/patientSort'
+import { metBand, wellnessBand } from '@/lib/wellness'
 import { useI18n } from '@/hooks/useI18n'
 import { formatInitials } from '@/lib/format'
-import { RiskChip } from '@/components/RiskChip'
+import { WellnessChip } from '@/components/WellnessChip'
 import { EmptyState } from '@/components/ui/EmptyState'
 import { TableRowSkeleton } from '@/components/ui/Skeleton'
 
@@ -23,12 +24,13 @@ interface PatientTableProps {
   onDelete?: (patient: Patient) => void
 }
 
-const SORT_COLUMNS: { key: PatientSortKey; labelKey: 'patient' | 'ageSex' | 'diabetes' | 'cvd' | 'oncology' }[] = [
+const SORT_COLUMNS: { key: PatientSortKey; labelKey: 'patient' | 'ageSex' | 'department' | 'recovery' | 'sleep' | 'met' }[] = [
   { key: 'name', labelKey: 'patient' },
   { key: 'age', labelKey: 'ageSex' },
-  { key: 'diabetes', labelKey: 'diabetes' },
-  { key: 'cvd', labelKey: 'cvd' },
-  { key: 'oncology', labelKey: 'oncology' },
+  { key: 'department', labelKey: 'department' },
+  { key: 'recovery', labelKey: 'recovery' },
+  { key: 'sleep', labelKey: 'sleep' },
+  { key: 'met', labelKey: 'met' },
 ]
 
 export function PatientTable({
@@ -128,13 +130,18 @@ export function PatientTable({
                       {t.table.yearsShort} · {patient.sex === 'male' ? t.table.male : t.table.female}
                     </td>
                     <td className="px-4 py-2.5">
-                      <RiskChip domain="diabetes" band={patient.domains.diabetes.band} percent={patient.domains.diabetes.percent} applicable={patient.domains.diabetes.applicable} />
+                      <span className="inline-flex items-center rounded-full bg-surface-muted px-2.5 py-1 text-xs font-semibold text-ink-700">
+                        {t.department[patient.department]}
+                      </span>
                     </td>
                     <td className="px-4 py-2.5">
-                      <RiskChip domain="cvd" band={patient.domains.cvd.band} percent={patient.domains.cvd.percent} applicable={patient.domains.cvd.applicable} />
+                      <WellnessChip kind="recovery" value={patient.wellness.recovery} band={wellnessBand(patient.wellness.recovery)} suffix="%" />
                     </td>
                     <td className="px-4 py-2.5">
-                      <RiskChip domain="oncology" band={patient.domains.oncology.band} percent={patient.domains.oncology.percent} applicable={patient.domains.oncology.applicable} />
+                      <WellnessChip kind="sleep" value={patient.wellness.sleepScore} band={wellnessBand(patient.wellness.sleepScore)} />
+                    </td>
+                    <td className="px-4 py-2.5">
+                      <WellnessChip kind="met" value={patient.wellness.met} band={metBand(patient.wellness.met)} />
                     </td>
                     {canManage && (
                       <td className="px-4 py-2.5">

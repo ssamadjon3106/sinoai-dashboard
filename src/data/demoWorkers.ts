@@ -116,6 +116,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:00:04.487666+05:00"
       }
+    },
+    "department": "warehouse",
+    "wellness": {
+      "recovery": 78,
+      "sleepScore": 82,
+      "met": 5.4,
+      "activityScore": 74,
+      "stressScore": 28
     }
   },
   {
@@ -217,6 +225,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:23:18.809394+05:00"
       }
+    },
+    "department": "production",
+    "wellness": {
+      "recovery": 61,
+      "sleepScore": 58,
+      "met": 4.1,
+      "activityScore": 55,
+      "stressScore": 52
     }
   },
   {
@@ -317,6 +333,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:23:30.835165+05:00"
       }
+    },
+    "department": "warehouse",
+    "wellness": {
+      "recovery": 85,
+      "sleepScore": 88,
+      "met": 6.0,
+      "activityScore": 80,
+      "stressScore": 22
     }
   },
   {
@@ -417,6 +441,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:23:42.596813+05:00"
       }
+    },
+    "department": "management",
+    "wellness": {
+      "recovery": 70,
+      "sleepScore": 74,
+      "met": 3.6,
+      "activityScore": 42,
+      "stressScore": 38
     }
   },
   {
@@ -517,6 +549,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:23:54.764736+05:00"
       }
+    },
+    "department": "production",
+    "wellness": {
+      "recovery": 80,
+      "sleepScore": 79,
+      "met": 5.2,
+      "activityScore": 68,
+      "stressScore": 30
     }
   },
   {
@@ -617,6 +657,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:24:02.714861+05:00"
       }
+    },
+    "department": "warehouse",
+    "wellness": {
+      "recovery": 66,
+      "sleepScore": 63,
+      "met": 4.4,
+      "activityScore": 58,
+      "stressScore": 46
     }
   },
   {
@@ -717,6 +765,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:24:15.391957+05:00"
       }
+    },
+    "department": "production",
+    "wellness": {
+      "recovery": 83,
+      "sleepScore": 85,
+      "met": 5.6,
+      "activityScore": 71,
+      "stressScore": 25
     }
   },
   {
@@ -817,6 +873,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:24:23.449379+05:00"
       }
+    },
+    "department": "logistics",
+    "wellness": {
+      "recovery": 88,
+      "sleepScore": 90,
+      "met": 6.2,
+      "activityScore": 77,
+      "stressScore": 20
     }
   },
   {
@@ -918,6 +982,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-20T16:18:06.768068+05:00"
       }
+    },
+    "department": "production",
+    "wellness": {
+      "recovery": 39,
+      "sleepScore": 46,
+      "met": 3.1,
+      "activityScore": 33,
+      "stressScore": 71
     }
   },
   {
@@ -1018,6 +1090,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-21T12:24:40.758168+05:00"
       }
+    },
+    "department": "warehouse",
+    "wellness": {
+      "recovery": 64,
+      "sleepScore": 60,
+      "met": 4.3,
+      "activityScore": 56,
+      "stressScore": 48
     }
   },
   {
@@ -1119,6 +1199,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-25T13:29:37.987222+05:00"
       }
+    },
+    "department": "logistics",
+    "wellness": {
+      "recovery": 35,
+      "sleepScore": 41,
+      "met": 2.9,
+      "activityScore": 29,
+      "stressScore": 74
     }
   },
   {
@@ -1230,6 +1318,14 @@ export const demoWorkers: Patient[] = [
         },
         "updatedAt": "2026-08-25T13:29:53.370309+05:00"
       }
+    },
+    "department": "management",
+    "wellness": {
+      "recovery": 72,
+      "sleepScore": 76,
+      "met": 3.8,
+      "activityScore": 45,
+      "stressScore": 36
     }
   }
 ]

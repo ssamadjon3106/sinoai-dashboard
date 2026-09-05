@@ -6,7 +6,31 @@ export type RiskBand = (typeof RISK_BANDS)[number]
 export const DOMAIN_KEYS = ['diabetes', 'cvd', 'oncology'] as const
 export type DomainKey = (typeof DOMAIN_KEYS)[number]
 
+export const DEPARTMENT_KEYS = ['warehouse', 'production', 'logistics', 'management'] as const
+export type DepartmentKey = (typeof DEPARTMENT_KEYS)[number]
+
 export type Sex = 'male' | 'female'
+
+/**
+ * Wellness/lifestyle metrics surfaced across the dashboard in place of the
+ * clinical diabetes/CVD/oncology domains, which are reserved for the
+ * Overview page's aggregate workforce breakdown only. Not part of SinoAI's
+ * real API (confirmed against https://chatapi.sinoai.io/docs, which exposes
+ * sleep/heart_rate/blood_pressure/stress/spo2/ecg/met but no "recovery"
+ * field) — recovery is a demo-only composite score, 0-100, higher is better.
+ */
+export interface WellnessMetrics {
+  /** 0-100 composite recovery score, higher is better. */
+  recovery: number
+  /** 0-100 sleep-quality score, higher is better. */
+  sleepScore: number
+  /** Metabolic Equivalent of Task — real SinoAI metric, higher (more active) is better. */
+  met: number
+  /** 0-100 physical-activity score, higher is better. */
+  activityScore: number
+  /** 0-100 stress score, higher is worse. */
+  stressScore: number
+}
 
 export const CLINICIAN_ROLES = ['viewer', 'hr'] as const
 export type ClinicianRole = (typeof CLINICIAN_ROLES)[number]
@@ -116,6 +140,10 @@ export interface Patient {
   assessed: boolean
   /** Links this worker to their account in the SinoAI mobile chatbot, when known. */
   sinoaiUserId?: string | null
+  /** HR-assigned department/team — drives the Departments page aggregates and the Users table column. */
+  department: DepartmentKey
+  /** Wellness/lifestyle composite metrics — see {@link WellnessMetrics}. */
+  wellness: WellnessMetrics
   measurements: PatientMeasurements
   domains: PatientDomains
 }

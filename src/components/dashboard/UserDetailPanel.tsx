@@ -1,31 +1,20 @@
-import { useEffect, useState } from 'react'
 import { MapPin, X } from 'lucide-react'
-import type { DomainKey, Patient } from '@/types'
-import { DOMAIN_KEYS } from '@/types'
+import type { Patient } from '@/types'
 import { useI18n } from '@/hooks/useI18n'
 import { ageToAgeBand, REFERENCE_RANGES } from '@/lib/clinicalConfig'
-import { pickLocalized } from '@/lib/i18n'
+import { metBand, stressBand, wellnessBand, wellnessIndex } from '@/lib/wellness'
 import { formatInitials } from '@/lib/format'
 import { RiskGauge } from '@/components/RiskGauge'
-import { DomainCard } from '@/components/DomainCard'
+import { WellnessMetricTile } from '@/components/WellnessMetricTile'
 import { ReferenceRangeBar } from '@/components/ReferenceRangeBar'
 
 export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClose?: () => void }) {
-  const { t, language } = useI18n()
-  const [activeDomain, setActiveDomain] = useState<DomainKey>('diabetes')
-
-  useEffect(() => {
-    setActiveDomain('diabetes')
-  }, [patient.id])
-
-  const activeResult = patient.domains[activeDomain]
+  const { t } = useI18n()
   const ranges = REFERENCE_RANGES[ageToAgeBand(patient.age)][patient.sex]
 
-  function selectDomain(domain: DomainKey) {
-    if (domain !== activeDomain) {
-      setActiveDomain(domain)
-    }
-  }
+  const index = wellnessIndex(patient.wellness)
+  const indexBand = wellnessBand(index)
+  const indexBandLabel = { low: t.wellness.bandGood, moderate: t.wellness.bandModerate, high: t.wellness.bandPoor }[indexBand]
 
   return (
     <div className="flex h-full flex-col">
@@ -55,6 +44,9 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
                 <MapPin className="h-3 w-3" />
                 {patient.region}
               </span>
+              <span className="inline-flex items-center rounded-full bg-white/15 px-2 py-0.5 font-semibold text-white">
+                {t.department[patient.department]}
+              </span>
             </div>
           </div>
           {onClose && (
@@ -73,27 +65,25 @@ export function UserDetailPanel({ patient, onClose }: { patient: Patient; onClos
       <div className="flex-1 overflow-y-auto px-6 py-5">
         <div className="flex cursor-default flex-col items-center rounded-card bg-surface-sunken py-6">
           <RiskGauge
-            percent={activeResult.percent}
-            band={activeResult.band}
-            applicable={activeResult.applicable}
+            percent={index}
+            band={indexBand}
+            applicable
             size={196}
             strokeWidth={15}
-            bottomLabel={activeResult.applicable ? t.riskBand[`${activeResult.band}Long`] : undefined}
-            notApplicableLabel={activeResult.notApplicableReason ? pickLocalized(activeResult.notApplicableReason, language) : t.detail.notApplicable}
+            topLabel={t.detail.wellnessIndexLabel}
+            bottomLabel={indexBandLabel}
           />
         </div>
 
-        {/* Domain selector row */}
-        <div className="mt-4 flex gap-2">
-          {DOMAIN_KEYS.map((domain) => (
-            <DomainCard
-              key={domain}
-              domain={domain}
-              result={patient.domains[domain]}
-              active={activeDomain === domain}
-              onActivate={() => selectDomain(domain)}
-            />
-          ))}
+        {/* Wellness metric tiles — replace the old diabetes/CVD/oncology
+            domain selector, which now only appears on the Overview page's
+            workforce-level breakdown. */}
+        <div className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3">
+          <WellnessMetricTile kind="recovery" value={patient.wellness.recovery} band={wellnessBand(patient.wellness.recovery)} suffix="%" />
+          <WellnessMetricTile kind="sleep" value={patient.wellness.sleepScore} band={wellnessBand(patient.wellness.sleepScore)} />
+          <WellnessMetricTile kind="met" value={patient.wellness.met} band={metBand(patient.wellness.met)} />
+          <WellnessMetricTile kind="activity" value={patient.wellness.activityScore} band={wellnessBand(patient.wellness.activityScore)} />
+          <WellnessMetricTile kind="stress" value={patient.wellness.stressScore} band={stressBand(patient.wellness.stressScore)} />
         </div>
 
         {/* Reference ranges — only measurements the real API can supply, and
